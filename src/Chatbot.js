@@ -6,9 +6,12 @@ import {
   MessageInput,
   ChatContainer,
   MessageList,
-  TypingIndicator
+  TypingIndicator,
+  Avatar
 } from '@chatscope/chat-ui-kit-react';
 import './App.css';
+import img1 from './images/bot_image1.png';
+import img2 from './images/bot_image2.png';
 
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
 
@@ -72,7 +75,6 @@ function Chatbot() {
         setIsTyping(false);
         throw new Error('Failed to get a response. Please check your plan');
       }
-      
 
       const data = await response.json();
       setMessages([...chatMessages, {
@@ -96,7 +98,14 @@ function Chatbot() {
             >
               {messages.map((message, i) => {
                 console.log(message);
-                return <Message key={i} model={message} />;
+                const isChatbot = message.sender === 'Chatbot_by_Ade';
+                const avatarSrc = isChatbot ? img1 : img2;
+                const avatarName = isChatbot ? 'Chatbot_by_Ade' : 'User';
+                return (
+                  <Message key={i} model={message}>
+                    <Avatar src={avatarSrc} name={avatarName} />
+                  </Message>
+                );
               })}
             </MessageList>
             <MessageInput placeholder="Type message here" onSend={handleSendButtonClick} />
