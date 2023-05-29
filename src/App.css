@@ -3,8 +3,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
 }
+
+
+.App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('./images/bot_image1.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+}
+/*
 
 .chat-window {
   display: flex;
@@ -20,6 +33,8 @@
   background-color: #fff;
 }
 
+
+/*
 .message {
   display: block;
   margin-bottom: 10px;
@@ -79,7 +94,6 @@ textarea {
 
 
 
-
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -122,3 +136,4 @@ textarea {
 .read-the-docs {
   color: #888;
 }
+*/

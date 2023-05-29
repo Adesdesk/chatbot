@@ -9,16 +9,16 @@ import {
   TypingIndicator,
   Avatar
 } from '@chatscope/chat-ui-kit-react';
-import './App.css';
+import './Chatbot.css';
 import img1 from './images/bot_image1.png';
 import img2 from './images/bot_image2.png';
 
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
 
-// System message to define how Chatbot_by_Ade explains things
-const systemMessage = {
-  role: 'system',
-  content: "Explain things like you're talking to a software professional with 2 years of experience."
+// botMessages define how Chatbot_by_Ade explains things
+const botMessages = {
+  role: "system",
+  content: "Explain like you would do to an intermediate experienced software professional"
 };
 
 function Chatbot() {
@@ -39,52 +39,55 @@ function Chatbot() {
     };
 
     const newMessages = [...messages, newMessage];
+
     setMessages(newMessages);
 
     // Send message to Chatbot_by_Ade and get the response
     setIsTyping(true);
-    await processMessageToChatbotByAde(newMessages);
+    await processMessageToChatbot_by_Ade(newMessages);
   };
 
-  async function processMessageToChatbotByAde(chatMessages) {
+  async function processMessageToChatbot_by_Ade(chatMessages) {
     // Format messages to conform to the API expectations
-    const apiMessages = chatMessages.map((messageObject) => {
-      const role = messageObject.sender === "Chatbot_by_Ade" ? "AI" : "user";
-      return { role, content: messageObject.message };
+
+    let apiMessages = chatMessages.map((messageObject) => {
+      let role = "";
+      if (messageObject.sender === "Chatbot_by_Ade") {
+        role = "assistant";
+      } else {
+        role = "user";
+      }
+      return { role: role, content: messageObject.message };
     });
+
+    // Define choice model to use
 
     const apiRequestBody = {
       model: "gpt-3.5-turbo",
       messages: [
-        systemMessage,
+        botMessages,
         ...apiMessages
       ]
     };
 
-    try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    await fetch("https://api.openai.com/v1/chat/completions",
+      {
         method: "POST",
         headers: {
           "Authorization": "Bearer " + API_KEY,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(apiRequestBody)
-      });
-
-      if (!response.ok) {
+      }).then((data) => {
+        return data.json();
+      }).then((data) => {
+        console.log(data);
+        setMessages([...chatMessages, {
+          message: data.choices[0].message.content,
+          sender: "Chatbot_by_Ade"
+        }]);
         setIsTyping(false);
-        throw new Error('Failed to get a response. Please check your plan');
-      }
-
-      const data = await response.json();
-      setMessages([...chatMessages, {
-        message: data.choices[0].message.content,
-        sender: "Chatbot_by_Ade"
-      }]);
-      setIsTyping(false);
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
+      });
   }
 
   return (
@@ -98,9 +101,11 @@ function Chatbot() {
             >
               {messages.map((message, i) => {
                 console.log(message);
-                const isChatbot = message.sender === 'Chatbot_by_Ade';
+
+                const isChatbot = message.sender === "Chatbot_by_Ade";
                 const avatarSrc = isChatbot ? img1 : img2;
-                const avatarName = isChatbot ? 'Chatbot_by_Ade' : 'User';
+                const avatarName = isChatbot ? "Chatbot_by_Ade" : "User";
+
                 return (
                   <Message key={i} model={message}>
                     <Avatar src={avatarSrc} name={avatarName} />
