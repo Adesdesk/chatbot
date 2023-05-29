@@ -1,91 +1,109 @@
-import { useState } from "react";
-import "./App.css";
-import { Configuration, OpenAIApi } from "openai";
-// import dotenv from "dotenv";
+import React, { useState } from 'react';
+import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
+import {
+  MainContainer,
+  Message,
+  MessageInput,
+  ChatContainer,
+  MessageList,
+  TypingIndicator
+} from '@chatscope/chat-ui-kit-react';
+import './App.css';
 
-const configuration = new Configuration({
-  organization: "org-hDLwSg4mxhinjecFIxoGbxcP",
-  apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+const API_KEY = process.env.REACT_APP_OPENAI_API_KEY;
+
+// System message to define how Chatbot_by_Ade explains things
+const systemMessage = {
+  role: 'system',
+  content: "Explain things like you're talking to a software professional with 2 years of experience."
+};
 
 function Chatbot() {
-  const [message, setMessage] = useState("");
-  const [chats, setChats] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      message: "Hi! I'm Chatbot_by_Ade, \n I am powered by the Adesdesk AI Companion to Adeola David A. \n Kindly input a message to ask me any question!",
+      sentTime: "Just now",
+      sender: "Chatbot_by_Ade"
+    }
+  ]);
   const [isTyping, setIsTyping] = useState(false);
 
-  const chat = async (e, message) => {
-    e.preventDefault();
+  const handleSendButtonClick = async (message) => {
+    const newMessage = {
+      message,
+      direction: 'outgoing',
+      sender: "user"
+    };
 
-    if (!message) return;
+    const newMessages = [...messages, newMessage];
+    setMessages(newMessages);
+
+    // Send message to Chatbot_by_Ade and get the response
     setIsTyping(true);
-    window.scrollTo(0, 100);
-
-    let msgs = chats;
-    msgs.push({ role: "user", content: message });
-    setChats(msgs);
-
-    setMessage("");
-
-    await openai
-      .createChatCompletion({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "system",
-            content: "It's so interesting to interract here",
-          },
-          ...chats,
-        ],
-      })
-      .then((res) => {
-        msgs.push(res.data.choices[0].message);
-        setChats(msgs);
-        setIsTyping(false);
-        window.scrollTo(0, 100);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await processMessageToChatbotByAde(newMessages);
   };
 
+  async function processMessageToChatbotByAde(chatMessages) {
+    // Format messages to conform to the API expectations
+    const apiMessages = chatMessages.map((messageObject) => {
+      const role = messageObject.sender === "Chatbot_by_Ade" ? "AI" : "user";
+      return { role, content: messageObject.message };
+    });
+
+    const apiRequestBody = {
+      model: "gpt-3.5-turbo",
+      messages: [
+        systemMessage,
+        ...apiMessages
+      ]
+    };
+
+    try {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + API_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(apiRequestBody)
+      });
+
+      if (!response.ok) {
+        setIsTyping(false);
+        throw new Error('Failed to get a response. Please check your plan');
+      }
+      
+
+      const data = await response.json();
+      setMessages([...chatMessages, {
+        message: data.choices[0].message.content,
+        sender: "Chatbot_by_Ade"
+      }]);
+      setIsTyping(false);
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
+
   return (
-    <main>
-      <h1>Chatbot-by-Ade</h1>
-
-      <section>
-        {chats && chats.length
-          ? chats.map((chat, index) => (
-              <p
-                key={index}
-                className={chat.role === "user" ? "user_msg" : ""}
-              >
-                <span>
-                  <b>{chat.role.toUpperCase()}</b>
-                </span>
-                <span>:</span>
-                <span>{chat.content}</span>
-              </p>
-            ))
-          : ""}
-      </section>
-
-      <div className={isTyping ? "" : "hide"}>
-        <p>
-          <i>{isTyping ? "Typing" : ""}</i>
-        </p>
+    <div className="App">
+      <div className='chatInterface'>
+        <MainContainer>
+          <ChatContainer>
+            <MessageList
+              scrollBehavior="smooth"
+              typingIndicator={isTyping ? <TypingIndicator content="Chatbot_by_Ade is typing" /> : null}
+            >
+              {messages.map((message, i) => {
+                console.log(message);
+                return <Message key={i} model={message} />;
+              })}
+            </MessageList>
+            <MessageInput placeholder="Type message here" onSend={handleSendButtonClick} />
+          </ChatContainer>
+        </MainContainer>
       </div>
-
-      <form action="" onSubmit={(e) => chat(e, message)}>
-        <input
-          type="text"
-          name="message"
-          value={message}
-          placeholder="Type in your messages here and click Enter..."
-          onChange={(e) => setMessage(e.target.value)}
-        />
-      </form>
-    </main>
+    </div>
   );
 }
 
