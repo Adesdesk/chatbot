@@ -17,7 +17,7 @@
     background-position: center;
   }
   
-  /* Styling for the chat interface */
+  /* Styling the chat interface */
   .chatInterface {
     width: 600px;
     height: 800px;
@@ -36,41 +36,41 @@
     }
   }
   
-  /* Styling for the message list */
+  /* Styling the message list */
   .chatInterface .chatContainer .chatList {
     padding: 20px;
     overflow-y: auto;
   }
   
-  /* Styling for the message input */
+  /* Styling the message input */
   .chatInterface .chatContainer .chatInput {
     padding: 20px;
     border-top: 1px solid #ccc;
   }
   
-  /* Styling for the message bubbles */
+  /* Styling the message bubbles */
   .chatInterface .chatContainer .chatList .message {
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 4px;
   }
   
-  /* Styling for the user message */
+  /* Styling the user message */
   .chatInterface .chatContainer .chatList .message.outgoing {
     background-color: #f1f0f0;
   }
   
-  /* Styling for the chatbot message */
+  /* Styling the chatbot message */
   .chatInterface .chatContainer .chatList .message.incoming {
     background-color: #dbf4ff;
   }
   
-  /* Styling for the message content */
+  /* Styling the message content */
   .chatInterface .chatContainer .chatList .message .content {
     color: #333;
   }
   
-  /* Styling for the typing indicator */
+  /* Styling the typing indicator */
   .chatInterface .chatContainer .typingIndicator {
     padding: 10px;
     font-size: 12px;
@@ -78,7 +78,7 @@
     color: #888;
   }
   
-  /* Styling for the message input text area */
+  /* Styling the message input text area */
   .chatInterface .chatContainer .chatInput .textInput textarea {
     border: none;
     outline: none;
@@ -89,7 +89,7 @@
     line-height: 20px;
   }
   
-  /* Styling for the message input send button */
+  /* Styling the message input send button */
   .chatInterface .chatContainer .chatInput .sendButton {
     margin-left: 10px;
     color: #fff;
