@@ -24,7 +24,7 @@ const botMessages = {
 function Chatbot() {
   const [messages, setMessages] = useState([
     {
-      message: "Hi! I'm Chatbot_by_Ade, the amazing software developer for business management. \n I am powered by the Adesdesk AI Companion to Adeola David A. \n Kindly input a message to ask me any question!",
+      message: "Hi! I'm Chatbot_by_Ade, the amazing software developer for business management. \nI am powered by the Adesdesk AI Companion to Adeola David A. \nKindly input a message to ask me any question!",
       sentTime: "Just now",
       sender: "Chatbot_by_Ade"
     }
