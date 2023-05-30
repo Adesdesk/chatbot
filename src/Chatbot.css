@@ -1,109 +1,163 @@
-/* Reset some default styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Set a full-height layout for the app */
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('./images/bot_image1.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  /* Styling the chat interface */
+.organizeButton {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.App {
+  text-align: center;
+}
+
+.blogButton {
+  background-color: #073f05;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.blogButton:hover {
+  background-color: #ffffff;
+  color: #073f05;
+}
+
+.chatInterface {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chat-container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 10px 0;
+}
+
+.message-input {
+  margin-top: 10px;
+  border-top: 1px solid #073f05;
+}
+
+.message-input input {
+  border-radius: 5px;
+}
+
+.typing-indicator {
+  color: #073f05;
+}
+
+.message.model-chatbot_by_ade .message-content {
+  background-color: #073f05;
+  color: #ffffff;
+}
+
+.message.model-user .message-content {
+  background-color: #ffffff;
+  color: #073f05;
+}
+
+/* Update the chat content color to white */
+.message-list .message-content {
+  color: #ffffff;
+}
+
+/* Reduce the size of avatar icons */
+.message-list .message-content .message-avatar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Responsive Styles */
+
+@media screen and (max-width: 600px) {
   .chatInterface {
-    width: 600px;
-    height: 800px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-  
-  /* Media query for responsive design */
-  @media (max-width: 600px) {
-    .chatInterface {
-      width: 100%;
-      height: 100%;
-      border-radius: 0;
-    }
-  }
-  
-  /* Styling the message list */
-  .chatInterface .chatContainer .chatList {
+    max-width: 100%;
     padding: 20px;
-    overflow-y: auto;
   }
-  
-  /* Styling the message input */
-  .chatInterface .chatContainer .chatInput {
-    padding: 20px;
-    border-top: 1px solid #ccc;
-  }
-  
-  /* Styling the message bubbles */
-  .chatInterface .chatContainer .chatList .message {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 4px;
-  }
-  
-  /* Styling the user message */
-  .chatInterface .chatContainer .chatList .message.outgoing {
-    background-color: #f1f0f0;
-  }
-  
-  /* Styling the chatbot message */
-  .chatInterface .chatContainer .chatList .message.incoming {
-    background-color: #dbf4ff;
-  }
-  
-  /* Styling the message content */
-  .chatInterface .chatContainer .chatList .message .content {
-    color: #333;
-  }
-  
-  /* Styling the typing indicator */
-  .chatInterface .chatContainer .typingIndicator {
-    padding: 10px;
-    font-size: 12px;
-    text-align: center;
-    color: #888;
-  }
-  
-  /* Styling the message input text area */
-  .chatInterface .chatContainer .chatInput .textInput textarea {
-    border: none;
-    outline: none;
-    width: 100%;
-    height: 100%;
-    resize: none;
-    font-size: 14px;
-    line-height: 20px;
-  }
-  
-  /* Styling the message input send button */
-  .chatInterface .chatContainer .chatInput .sendButton {
-    margin-left: 10px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 20px;
-    transition: background-color 0.3s;
-  }
-  
-  .chatInterface .chatContainer .chatInput .sendButton:hover {
-    background-color: #0056b3;
-  }
-  
+}
+
+
+
+/* Styling the message list */
+.chatInterface .chatContainer .chatList {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Styling the message input */
+.chatInterface .chatContainer .chatInput {
+  padding: 20px;
+ /* border-top: 1px solid #ccc;*/
+}
+
+/* Styling the message bubbles */
+.chatInterface .chatContainer .chatList .message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/* Styling the typing indicator */
+.chatInterface .chatContainer .typingIndicator {
+  padding: 10px;
+  font-size: 12px;
+  text-align: center;
+  /*color: #888;*/
+}
+
+/* Styling the message input text area */
+.chatInterface .chatContainer .chatInput .textInput textarea {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* Styling the message input send button */
+.chatInterface .chatContainer .chatInput .sendButton {
+  margin-left: 10px;
+  /*color: #fff;
+  background-color: #007bff;*/
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  transition: background-color 0.3s;
+}
+
+.organizeButton {
+  border-bottom: 12px;
+}
+
+
+/**{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}*/
+
+/* Set a full-height layout for the app */
+body {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('./images/bot_image1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}

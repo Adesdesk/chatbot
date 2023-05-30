@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
+import { useNavigate } from 'react-router-dom';
 import {
   MainContainer,
   Message,
@@ -22,9 +23,14 @@ const botMessages = {
 };
 
 function Chatbot() {
+  const navigate = useNavigate();
+
+  const handleBlogButtonClick = () => {
+    navigate('/blog');
+  };
   const [messages, setMessages] = useState([
     {
-      message: "Hi! I'm Chatbot_by_Ade, the amazing software developer for business management. \nI am powered by the Adesdesk AI Companion to Adeola David A. \nKindly input a message to ask me any question!",
+      message: "Hi! I'm Chatbot_by_Ade, the amazing software developer for business management. \nI am powered by the Adesdesk AI Companion to Adeola David A. \nClick the white space below to input a message asking me any question!",
       sentTime: "Just now",
       sender: "Chatbot_by_Ade"
     }
@@ -92,10 +98,14 @@ function Chatbot() {
 
   return (
     <div className="App">
+      <button className="blogButton" onClick={handleBlogButtonClick}>
+          Visit my blog
+            </button>
+
       <div className='chatInterface'>
         <MainContainer>
           <ChatContainer>
-            <MessageList
+            <MessageList style={{ color: "white" }} 
               scrollBehavior="smooth"
               typingIndicator={isTyping ? <TypingIndicator content="Chatbot_by_Ade is typing" /> : null}
             >
@@ -113,7 +123,7 @@ function Chatbot() {
                 );
               })}
             </MessageList>
-            <MessageInput placeholder="Type message here" onSend={handleSendButtonClick} />
+            <MessageInput style={{ color: "#073f05", backgroundColor:"white" }} placeholder="Type your message here" onSend={handleSendButtonClick} />
           </ChatContainer>
         </MainContainer>
       </div>
